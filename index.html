@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marwan Osama — AI Engineer</title>
+<meta name="description" content="Marwan Osama, AI Engineer in Alexandria, Egypt. NLP, RAG pipelines, Arabic language models and applied machine learning.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a lab-notebook portfolio. Left-aligned editorial column, mono "spec labels",
+   a live retrieval-timeline canvas in the hero that echoes the timestamp-aware RAG project. */
+:root{
+  --bg:#f3f5f8;
+  --surface:#ffffff;
+  --ink:#0f1b2a;
+  --muted:#566476;
+  --line:#dde3ea;
+  --accent:#2346d6;
+  --accent-soft:#e6ebfd;
+  --signal:#c98a00;
+  --font-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --radius:10px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0b111d;
+    --surface:#121a2b;
+    --ink:#e5eaf2;
+    --muted:#94a1b5;
+    --line:#223049;
+    --accent:#8aa2ff;
+    --accent-soft:#1a2547;
+    --signal:#f0c04c;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0b111d;
+  --surface:#121a2b;
+  --ink:#e5eaf2;
+  --muted:#94a1b5;
+  --line:#223049;
+  --accent:#8aa2ff;
+  --accent-soft:#1a2547;
+  --signal:#f0c04c;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-family:var(--font-display);line-height:1.1;margin:0;text-wrap:balance;letter-spacing:-0.01em}
+p{margin:0}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+@media (max-width:420px){.wrap{padding:0 16px}}
+
+/* Nav */
+header.nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+.brand{font-family:var(--font-mono);font-size:14px;font-weight:500;color:var(--ink);text-decoration:none;letter-spacing:.02em}
+.brand span{color:var(--accent)}
+nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0}
+nav a{font-size:14px;color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--ink)}
+@media (max-width:720px){nav ul{display:none}}
+
+.label{font-family:var(--font-mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+/* Hero */
+.hero{padding:64px 0 40px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:32px}}
+.status{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-family:var(--font-mono);font-size:12.5px;color:var(--muted)}
+.status i{width:8px;height:8px;border-radius:50%;background:#22a565;box-shadow:0 0 0 3px color-mix(in srgb,#22a565 25%,transparent)}
+.hero h1{font-size:clamp(44px,7vw,84px);font-weight:800;margin:20px 0 14px}
+.hero .role{font-family:var(--font-display);font-size:clamp(20px,2.4vw,26px);font-weight:500;color:var(--muted);margin-bottom:22px}
+.hero .role b{color:var(--accent);font-weight:700}
+.hero .lede{max-width:60ch;font-size:18px}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:8px;font-weight:600;font-size:15px;text-decoration:none;border:1px solid var(--line);color:var(--ink);background:var(--surface);transition:border-color .15s, transform .15s}
+.btn:hover{border-color:var(--accent);transform:translateY(-1px)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.btn svg{width:17px;height:17px}
+
+/* Retrieval timeline card */
+.rag-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 14px;box-shadow:0 18px 40px -28px color-mix(in srgb,var(--ink) 40%,transparent)}
+.rag-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:10px}
+.rag-head .t{font-family:var(--font-mono);font-size:12.5px;color:var(--ink)}
+.rag-head .ts{font-family:var(--font-mono);font-size:12.5px;color:var(--signal);font-variant-numeric:tabular-nums}
+canvas#rag{width:100%;height:150px;display:block}
+.rag-q{margin-top:12px;padding:10px 12px;border-radius:8px;background:var(--accent-soft);font-size:14px;line-height:1.5}
+.rag-q .k{font-family:var(--font-mono);font-size:11.5px;color:var(--accent);display:block;margin-bottom:2px;text-transform:uppercase;letter-spacing:.06em}
+.rag-legend{display:flex;gap:16px;margin-top:10px;font-family:var(--font-mono);font-size:11.5px;color:var(--muted);flex-wrap:wrap}
+.rag-legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px;background:var(--accent)}
+.rag-legend span.off::before{background:var(--line)}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);margin-top:56px}
+.stat{padding:20px 22px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat .n{font-family:var(--font-display);font-size:34px;font-weight:700;font-variant-numeric:tabular-nums}
+.stat .d{font-size:14px;color:var(--muted);line-height:1.4}
+@media (max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.stat:nth-child(2){border-right:0}.stat:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+
+/* Sections */
+section.block{padding:72px 0 8px}
+.sec-head{display:grid;grid-template-columns:220px 1fr;gap:32px;margin-bottom:32px;align-items:end}
+.sec-head h2{font-size:clamp(30px,4vw,42px);font-weight:700}
+@media (max-width:760px){.sec-head{grid-template-columns:1fr;gap:8px}}
+
+/* Experience */
+.jobs{display:grid;gap:0;border-top:1px solid var(--line)}
+.job{display:grid;grid-template-columns:220px 1fr;gap:32px;padding:28px 0;border-bottom:1px solid var(--line)}
+.job .when{font-family:var(--font-mono);font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.job .when .tag{display:inline-block;margin-top:8px;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-size:11.5px}
+.job h3{font-size:23px;font-weight:700}
+.job .org{color:var(--muted);margin:4px 0 14px;font-size:15.5px}
+.job ul{margin:0;padding-left:18px;display:grid;gap:8px;max-width:70ch}
+.job li::marker{color:var(--accent)}
+@media (max-width:760px){.job{grid-template-columns:1fr;gap:8px}}
+
+/* Projects */
+.projects{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+@media (max-width:820px){.projects{grid-template-columns:1fr}}
+.proj{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px;display:flex;flex-direction:column;gap:14px}
+.proj.feature{grid-column:1/-1;display:grid;grid-template-columns:1.1fr .9fr;gap:32px}
+@media (max-width:820px){.proj.feature{grid-template-columns:1fr}}
+.proj .kicker{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.proj h3{font-size:24px;font-weight:700}
+.proj p{color:var(--ink);max-width:62ch}
+.proj ul{margin:0;padding-left:18px;display:grid;gap:6px;color:var(--muted);font-size:15.5px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px}
+.chip{font-family:var(--font-mono);font-size:12px;padding:3px 9px;border:1px solid var(--line);border-radius:6px;color:var(--muted);background:var(--bg)}
+.grade{font-family:var(--font-mono);font-size:12px;color:var(--signal)}
+
+/* Pipeline diagram */
+.pipe{display:grid;gap:8px;align-content:start}
+.pipe .step{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.pipe .num{font-family:var(--font-mono);font-size:12px;color:var(--accent);padding-top:2px}
+.pipe .step b{display:block;font-size:15px}
+.pipe .step span{font-size:13.5px;color:var(--muted);line-height:1.45}
+
+/* Skills */
+.skills{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+@media (max-width:900px){.skills{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.skills{grid-template-columns:1fr}}
+.skill{background:var(--surface);padding:22px}
+.skill h3{font-family:var(--font-mono);font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+
+/* Education */
+.edu{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media (max-width:820px){.edu{grid-template-columns:1fr}}
+.edu .card{border-top:3px solid var(--accent);background:var(--surface);border-radius:0 0 var(--radius) var(--radius);padding:22px;border-left:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.edu h3{font-size:19px;font-weight:700;margin-bottom:6px}
+.edu p{color:var(--muted);font-size:15px}
+.edu .big{font-family:var(--font-display);font-size:30px;font-weight:700;color:var(--ink);margin-top:12px;font-variant-numeric:tabular-nums}
+
+/* Contact */
+.contact{margin:88px 0 0;padding:56px 0 64px;border-top:1px solid var(--line)}
+.contact h2{font-size:clamp(34px,5vw,56px);font-weight:800;max-width:18ch}
+.contact .rows{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px}
+@media (max-width:760px){.contact .rows{grid-template-columns:1fr}}
+.contact .row{padding:18px 20px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);text-decoration:none;color:var(--ink);display:block;transition:border-color .15s}
+.contact a.row:hover{border-color:var(--accent)}
+.contact .row .v{font-weight:600;word-break:break-word}
+.copy{margin-top:10px;font-family:var(--font-mono);font-size:12px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:4px 10px;cursor:pointer}
+.copy:hover{color:var(--ink);border-color:var(--accent)}
+footer{padding:24px 0 40px;color:var(--muted);font-size:13.5px;font-family:var(--font-mono)}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">marwan<span>.</span>osama</a>
+    <nav aria-label="Sections">
+      <ul>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <span class="status"><i aria-hidden="true"></i>Open to AI Engineer roles · Alexandria, Egypt</span>
+          <h1>Marwan Osama</h1>
+          <p class="role"><b>AI Engineer</b> · Data Scientist · NLP</p>
+          <p class="lede">I build machine learning systems that ship: Arabic and English NLP, RAG pipelines grounded in real documents, LLM agents with guardrails, and fully offline LLM deployments. I take models from raw data through evaluation to a REST API that a software team can rely on.</p>
+          <div class="ctas">
+            <a class="btn primary" href="#projects">See projects</a>
+            <a class="btn" href="https://github.com/Marwanosama65" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+              GitHub</a>
+            <a class="btn" href="https://www.linkedin.com/in/marwan-osama-412666242" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+              LinkedIn</a>
+          </div>
+        </div>
+
+        <figure class="rag-card" style="margin:0" aria-label="Illustration of timestamp-aware retrieval from the AI-Powered LMS project">
+          <div class="rag-head">
+            <span class="t">lecture_07 · retrieval window</span>
+            <span class="ts" id="ts">t = 00:24:10</span>
+          </div>
+          <canvas id="rag" aria-hidden="true"></canvas>
+          <div class="rag-q">
+            <span class="k">student asks</span>
+            "What did the doctor say about gradient accumulation?" Answers come only from chunks before the cursor.
+          </div>
+          <div class="rag-legend"><span>retrievable chunk</span><span class="off">not covered yet</span></div>
+        </figure>
+      </div>
+
+      <div class="stats" role="list">
+        <div class="stat" role="listitem"><div class="n">3.61</div><div class="d">GPA, B.Sc. Artificial Intelligence</div></div>
+        <div class="stat" role="listitem"><div class="n">120K+</div><div class="d">addresses geocoded and clustered at DSquares</div></div>
+        <div class="stat" role="listitem"><div class="n">8B</div><div class="d">parameter Llama run fully offline, 4-bit GGUF</div></div>
+        <div class="stat" role="listitem"><div class="n">A+</div><div class="d">graduation project, Arabic question answering</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="experience">
+    <div class="wrap">
+      <div class="sec-head"><span class="label">01 / Experience</span><h2>Where I've built things</h2></div>
+      <div class="jobs">
+        <article class="job">
+          <div class="when">Jan 2026 – Present<br><span class="tag">Freelance</span></div>
+          <div>
+            <h3>Freelance AI &amp; Data Science Engineer</h3>
+            <p class="org">Self-Employed · Upwork</p>
+            <ul>
+              <li>Delivered classification and regression models on tabular data, covering cleaning, feature engineering, evaluation and documentation.</li>
+              <li>Built Arabic and English NLP solutions for sentiment analysis, text classification and entity extraction with Hugging Face Transformers and spaCy.</li>
+              <li>Designed RAG pipelines with LangChain and vector databases so LLMs answer from each client's own documents.</li>
+              <li>Integrated models into client applications through FastAPI and Flask REST APIs with input validation.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="job">
+          <div class="when">Feb 2026 – Oct 2026<br><span class="tag">Smart Home · IoT</span></div>
+          <div>
+            <h3>AI Engineer</h3>
+            <p class="org">Smarts Switch</p>
+            <ul>
+              <li>Built ML models that predict energy demand from IoT sensor data, supporting automated device control and anomaly detection.</li>
+              <li>Developed an LLM agent using function calling and RAG to control smart home devices and answer energy-usage questions in natural language.</li>
+              <li>Designed evaluation sets and guardrails with the software and hardware teams so the agent behaves safely before deployment.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="job">
+          <div class="when">Jun 2024 – Nov 2024<br><span class="tag">Part-time</span></div>
+          <div>
+            <h3>AI &amp; Data Science Engineer</h3>
+            <p class="org">DSquares</p>
+            <ul>
+              <li>Built a real-time receipt OCR pipeline with merchant validation and multi-layer fraud detection: duplicate checks, tamper detection and screenshot rejection.</li>
+              <li>Geocoded 120K+ addresses and clustered 12K+ branches and 120K+ transactions with OPTICS and DBSCAN.</li>
+              <li>Built a recommendation engine on BigQuery, served through Flask REST APIs.</li>
+              <li>Documented experiments, model decisions and pipeline architecture for team handoff and reproducibility.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="projects">
+    <div class="wrap">
+      <div class="sec-head"><span class="label">02 / Projects</span><h2>Selected work</h2></div>
+      <div class="projects">
+
+        <article class="proj feature">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div class="kicker"><span class="label">Featured · RAG · ASR</span></div>
+            <h3>AI-Powered LMS: Timestamp-Aware RAG for Live Lecture Q&amp;A</h3>
+            <p>An AI layer for a learning platform. Students ask questions in the middle of a recorded lecture and get answers grounded only in what the lecture has covered up to that moment, so the assistant never spoils what comes next or invents material.</p>
+            <ul>
+              <li>Custom ASR for Arabic-English code-switching (Speechmatics Melia-1) with LLM post-transcription correction.</li>
+              <li>Quiz generation, grading and lecture summaries built on the same retrieval layer.</li>
+            </ul>
+            <div class="chips"><span class="chip">LangChain</span><span class="chip">ChromaDB</span><span class="chip">LLMs</span><span class="chip">ASR</span><span class="chip">Arabic NLP</span></div>
+          </div>
+          <div class="pipe" aria-label="Pipeline">
+            <div class="step"><span class="num">01</span><div><b>Transcribe</b><span>Code-switched Arabic/English audio to text, then LLM correction</span></div></div>
+            <div class="step"><span class="num">02</span><div><b>Chunk &amp; tag</b><span>Each chunk carries subject, lecture and timestamp metadata</span></div></div>
+            <div class="step"><span class="num">03</span><div><b>Expand &amp; normalize</b><span>Query expansion plus bilingual term normalization</span></div></div>
+            <div class="step"><span class="num">04</span><div><b>Filter by time</b><span>Retrieve only chunks with timestamp ≤ the student's position</span></div></div>
+            <div class="step"><span class="num">05</span><div><b>Answer</b><span>Grounded response, plus quizzes and summaries</span></div></div>
+          </div>
+        </article>
+
+        <article class="proj">
+          <div class="kicker"><span class="label">Graduation project · NLP</span><span class="grade">Grade A+</span></div>
+          <h3>Arabic Question Answering System</h3>
+          <p>Fine-tuned the AraT5 transformer for extractive Arabic QA and evaluated it with Exact Match and F1.</p>
+          <ul>
+            <li>Compared tokenization strategies for Arabic text.</li>
+            <li>Used learning-rate scheduling and gradient accumulation to fine-tune stably on limited data.</li>
+          </ul>
+          <div class="chips"><span class="chip">AraT5</span><span class="chip">Hugging Face</span><span class="chip">PyTorch</span><span class="chip">EM / F1</span></div>
+        </article>
+
+        <article class="proj">
+          <div class="kicker"><span class="label">Local LLM · Air-gapped</span></div>
+          <h3>Local &amp; Offline Chatbot for a Military Environment</h3>
+          <p>A chatbot that runs entirely inside an air-gapped network, with zero external data transfer.</p>
+          <ul>
+            <li>Llama 3.1 8B in 4-bit GGUF quantization served by Ollama, with Open WebUI as the interface.</li>
+            <li>Designed a RAG extension with ChromaDB and LangChain for answers from internal documents.</li>
+          </ul>
+          <div class="chips"><span class="chip">Llama 3.1 8B</span><span class="chip">Ollama</span><span class="chip">GGUF</span><span class="chip">Open WebUI</span></div>
+        </article>
+
+        <article class="proj">
+          <div class="kicker"><span class="label">LLM agent · IoT</span></div>
+          <h3>Smart Home Energy Agent</h3>
+          <p>An LLM agent that controls smart home devices and answers energy-usage questions in plain language, backed by demand-forecasting models trained on sensor data.</p>
+          <ul>
+            <li>Function calling for device control, RAG for usage questions.</li>
+            <li>Evaluation sets and guardrails before deployment.</li>
+          </ul>
+          <div class="chips"><span class="chip">Function calling</span><span class="chip">RAG</span><span class="chip">Time series</span><span class="chip">Anomaly detection</span></div>
+        </article>
+
+        <article class="proj">
+          <div class="kicker"><span class="label">Computer vision · Fraud</span></div>
+          <h3>Receipt OCR &amp; Fraud Detection</h3>
+          <p>A real-time pipeline that reads scanned receipts, validates the merchant and rejects fraudulent submissions before purchase data reaches the loyalty system.</p>
+          <ul>
+            <li>Duplicate checks, tamper detection and screenshot rejection.</li>
+          </ul>
+          <div class="chips"><span class="chip">OCR</span><span class="chip">OpenCV</span><span class="chip">Flask</span><span class="chip">BigQuery</span></div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="skills">
+    <div class="wrap">
+      <div class="sec-head"><span class="label">03 / Skills</span><h2>Toolkit</h2></div>
+      <div class="skills">
+        <div class="skill"><h3>NLP &amp; LLMs</h3><div class="chips"><span class="chip">Transformers</span><span class="chip">AraBERT</span><span class="chip">AraT5</span><span class="chip">Fine-tuning</span><span class="chip">NER</span><span class="chip">QA</span><span class="chip">spaCy</span><span class="chip">NLTK</span></div></div>
+        <div class="skill"><h3>Generative AI</h3><div class="chips"><span class="chip">LangChain</span><span class="chip">RAG</span><span class="chip">OpenAI APIs</span><span class="chip">Prompt engineering</span><span class="chip">Ollama</span><span class="chip">GGUF</span></div></div>
+        <div class="skill"><h3>ML / DL</h3><div class="chips"><span class="chip">PyTorch</span><span class="chip">TensorFlow</span><span class="chip">Scikit-learn</span><span class="chip">XGBoost</span><span class="chip">Feature engineering</span></div></div>
+        <div class="skill"><h3>Vector DBs &amp; CV</h3><div class="chips"><span class="chip">FAISS</span><span class="chip">ChromaDB</span><span class="chip">YOLOv5</span><span class="chip">OpenCV</span><span class="chip">Object detection</span></div></div>
+        <div class="skill"><h3>Data</h3><div class="chips"><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">Pandas</span><span class="chip">NumPy</span><span class="chip">EDA</span><span class="chip">Geospatial</span><span class="chip">Matplotlib</span></div></div>
+        <div class="skill"><h3>MLOps &amp; Serving</h3><div class="chips"><span class="chip">FastAPI</span><span class="chip">Flask</span><span class="chip">REST APIs</span><span class="chip">Airflow</span><span class="chip">BigQuery</span><span class="chip">Experiment tracking</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="education">
+    <div class="wrap">
+      <div class="sec-head"><span class="label">04 / Education</span><h2>Training</h2></div>
+      <div class="edu">
+        <div class="card"><h3>B.Sc. in Artificial Intelligence</h3><p>Kafr El-Sheikh University</p><div class="big">GPA 3.61</div></div>
+        <div class="card"><h3>Deep Learning Specialization</h3><p>DeepLearning.AI (Andrew Ng), plus the Hugging Face LLM Course</p></div>
+        <div class="card"><h3>ITI Summer Training</h3><p>Computer Vision</p><div class="big">150 hrs</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <span class="label">05 / Contact</span>
+      <h2 style="margin-top:12px">Have a model to build or a role to fill? Let's talk.</h2>
+      <div class="rows">
+        <div class="row">
+          <div class="label">Email</div>
+          <div class="v">marwanosama605@gmail.com</div>
+          <button class="copy" id="copy-email" type="button">Copy email</button>
+        </div>
+        <a class="row" href="https://www.linkedin.com/in/marwan-osama-412666242" target="_blank" rel="noopener"><div class="label">LinkedIn</div><div class="v">in/marwan-osama</div></a>
+        <a class="row" href="https://github.com/Marwanosama65" target="_blank" rel="noopener"><div class="label">GitHub</div><div class="v">Marwanosama65</div></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">© 2026 Marwan Osama · Alexandria, Egypt · Arabic (native) · English (professional)</div></footer>
+
+<script>
+(function(){
+  // Copy email
+  var btn=document.getElementById('copy-email');
+  btn.addEventListener('click',function(){
+    var done=function(t){btn.textContent=t;setTimeout(function(){btn.textContent='Copy email'},1800)};
+    try{navigator.clipboard.writeText('marwanosama605@gmail.com').then(function(){done('Copied')},function(){done('Select and copy above')})}
+    catch(e){done('Select and copy above')}
+  });
+
+  // Retrieval timeline canvas: chunks along a lecture, cursor sweeps, chunks before it light up.
+  var c=document.getElementById('rag'), ts=document.getElementById('ts');
+  var ctx=c.getContext('2d');
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var N=36, LEN=60*60; // 36 chunks across a 60-minute lecture
+  var heights=[];for(var i=0;i<N;i++){heights.push(0.35+0.6*Math.abs(Math.sin(i*1.7)*Math.cos(i*0.6)));}
+  var hits=[9,14,15,21]; // chunks "retrieved" for the question
+  var t=0.4; // resting cursor position (fraction)
+  function col(name){return getComputedStyle(document.documentElement).getPropertyValue(name).trim()}
+  function fmt(s){s=Math.floor(s);var h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return '00:'+String(m).padStart(2,'0')+':'+String(x).padStart(2,'0')}
+  function size(){var r=c.getBoundingClientRect(),d=window.devicePixelRatio||1;c.width=r.width*d;c.height=r.height*d;ctx.setTransform(d,0,0,d,0,0)}
+  function draw(){
+    var w=c.getBoundingClientRect().width,h=c.getBoundingClientRect().height;
+    ctx.clearRect(0,0,w,h);
+    var acc=col('--accent'),line=col('--line'),sig=col('--signal'),mut=col('--muted');
+    var base=h-22,gap=3,bw=(w-gap*(N-1))/N, cx=t*w;
+    // axis
+    ctx.strokeStyle=line;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,base+.5);ctx.lineTo(w,base+.5);ctx.stroke();
+    for(var i=0;i<N;i++){
+      var x=i*(bw+gap), bh=heights[i]*(base-14), on=(x+bw)<=cx;
+      ctx.fillStyle=on?acc:line;
+      ctx.globalAlpha=on?(hits.indexOf(i)>-1?1:0.45):1;
+      ctx.beginPath();ctx.roundRect?ctx.roundRect(x,base-bh,bw,bh,2):ctx.rect(x,base-bh,bw,bh);ctx.fill();
+      if(on&&hits.indexOf(i)>-1){ctx.globalAlpha=1;ctx.fillStyle=sig;ctx.beginPath();ctx.arc(x+bw/2,base-bh-6,2.5,0,Math.PI*2);ctx.fill();}
+    }
+    ctx.globalAlpha=1;
+    // cursor
+    ctx.strokeStyle=sig;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx,4);ctx.lineTo(cx,base+4);ctx.stroke();
+    // ticks
+    ctx.fillStyle=mut;ctx.font='11px "IBM Plex Mono", monospace';ctx.textBaseline='top';
+    ['00:00','15:00','30:00','45:00','60:00'].forEach(function(l,k){var x=k/4*w;ctx.textAlign=k===0?'left':(k===4?'right':'center');ctx.fillText(l,x,base+7)});
+    ts.textContent='t = '+fmt(t*LEN);
+  }
+  size();draw();
+  window.addEventListener('resize',function(){size();draw()});
+  if(window.matchMedia){var mq=window.matchMedia('(prefers-color-scheme: dark)');mq.addEventListener&&mq.addEventListener('change',draw)}
+  new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  if(!reduce){
+    var dir=1,last=performance.now();
+    (function loop(now){var dt=(now-last)/1000;last=now;t+=dir*dt*0.045;if(t>0.92){t=0.92;dir=-1}if(t<0.3){t=0.3;dir=1}draw();requestAnimationFrame(loop)})(last);
+  }
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(draw);
+})();
+</script>
+</body>
+</html>
